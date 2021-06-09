@@ -19,8 +19,8 @@ awsstore.uploadFilePreProcess = function() {
     var field = document.getElementById('field_name');
     if(field.value.startsWith('aws')) {
         var field_name = field.value.substring(0,field.value.length-8)
-        //var log_name = "log_" + field.value.substring(0,field.value.length-8);
-        //var log_field = document.getElementsByName(log_name)[0];
+        var log_name = "log_" + field.value.substring(0,field.value.length-8);
+        var log_field = document.getElementsByName(log_name)[0];
         var form = field.parentNode; 
         inputs = form.getElementsByTagName("input");
         var addEl = inputs[0].name == "myfile";
@@ -32,8 +32,6 @@ awsstore.uploadFilePreProcess = function() {
                 var names = file_name.split("\\");
                 var name = names[names.length-1];
                 //Do not check the name
-                //Log after upload
-		//log_field.value = name;
             }
             else if(inputs[i] == "myfile_base64") {
                 isSignature = inputs[i].value.length > 0;
@@ -50,6 +48,7 @@ awsstore.uploadFilePreProcess = function() {
 	    var pageDir = (new URLSearchParams(window.location.search)).get('page').replaceAll("_", " ");
 
             var dir = awsstore.base_dir + "/" + subdir + "/" + pageDir;
+            log_field.attempt = dir + "/" + name;
             inputs[0].name = "file";
             inParent = inputs[0].parentNode;
             names = ["key", "acl", "success_action_redirect", "Content-Type", "x-amz-meta-uuid", "x-amz-server-side-encryption", "x-amz-credential", "x-amz-algorithm", "x-amz-date", "x-amz-meta-tag", "policy", "x-amz-signature"]
@@ -77,10 +76,11 @@ filePopUp = awsstore.newFilePopUp;
 uploadFilePreProcess = awsstore.uploadFilePreProcess;
 
 awsstore.AWSStopUpload = function(success,this_field,doc_id,doc_name,study_id,doc_size,event_id,download_page,delete_page,doc_id_hash,instance) {
-	var result = '';
+        var result = '';
 	if (success == 1){
 	    log = document.getElementsByName("log_" + this_field)[0];
-	    log.value = doc_name;
+	    log.value = log.attempt;
+	    doc_name = log.attempt;
 	    try {
             if (typeof window.parent.lang_remove_file != 'undefined') {
                 var lang_remove_file = window.parent.lang_remove_file;
