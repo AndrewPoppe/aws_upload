@@ -1,0 +1,79 @@
+{
+  "name": "AWSStorage",
+  "namespace": "ABC\\AWSStorage",
+  "description": "Simple AWS S3 Uploads",
+  "authors": [
+    {
+      "name": "Adam Newton",
+      "email": "adam.newton@yale.edu",
+      "institution": "YCMI"
+    } 
+  ],
+  "versions": [
+    {
+      "number": "0.0.3",
+      "date": "2021-06-01",
+      "description": "Large file upload module",
+      "comments": ""
+    }
+  ],
+  "permissions":  [
+    "redcap_every_page_top"
+  ],
+
+  "links": {
+  },
+ "no-auth-pages": [
+  ],
+
+  "system-settings": [
+  ],
+
+  "project-settings": [
+    {
+      "key": "aws-s3-bucket",
+      "name": "AWS S3 bucket name <br /><em>example</em>: spinup-001042-abc-ct-data&nbsp;",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "key": "aws-s3-bucket-id",
+      "name": "AWS S3 bucket ID",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "key": "aws-s3-bucket-key",
+      "name": "AWS S3 bucket access key",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "key": "aws-s3-bucket-region",
+      "name": "AWS S3 bucket region <br /><em>example</em>: us-east-1&nbsp;",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "key": "aws-s3-bucket-acl",
+      "name": "AWS S3 bucket access control list  <br /><em>example</em>: public-read-write&nbsp;",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "key": "base-dir",
+      "name": "Base directory  <br /><em>example</em>: T4 Follow-Up&nbsp;",
+      "required": true,
+      "type": "text"
+    }
+  ],
+  "crons":[
+  ],
+
+  "compatibility": {
+    "php-version-min": "7.0.33",
+    "redcap-version-min": "10.0.0"
+  },
+
+  "framework-version": 5
+}
