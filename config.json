@@ -51,6 +51,5 @@
     "php-version-min": "7.4.0",
     "redcap-version-min": "14.0.2"
   },
-  "framework-version": 15,
-  "enable-every-page-hooks-on-login-form": true
+  "framework-version": 15
 }

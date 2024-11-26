@@ -64,6 +64,8 @@ awsstore.uploadFilePreProcess = function () {
             form.action = "https://" + AWSS3Bucket + ".s3.amazonaws.com/";
             form.method = "post";
             form.enctype = "multipart/form-data";
+            document.getElementById('f1_upload_process').style.display = 'block';
+            document.getElementById('f1_upload_form').style.display = 'none';
             form.submit();
             return;
         }
