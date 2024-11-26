@@ -8,16 +8,15 @@ class AWSStorage extends \ExternalModules\AbstractExternalModule {
     const ALGORITHM = "AWS4-HMAC-SHA256";
     const ALG = "SHA256";
 
-   function redcap_module_link_check_display($project_id, $link) {
-
-      // no rules yet; always show
-      return $link;
-   } // redcap_module_link_check_display
-
     function redcap_every_page_top ($project_id) {
+        if (isset($_COOKIE['PHPSESSID']) && !empty($_COOKIE['PHPSESSID'])) {
+            setcookie('AWSStorage_SESSID', $_COOKIE['PHPSESSID'], 0, '/', SERVER_NAME, true, true);
+        } elseif (isset($_COOKIE['AWSStorage_SESSID']) && !empty($_COOKIE['AWSStorage_SESSID'])) {
+            setcookie('PHPSESSID', $_COOKIE['AWSStorage_SESSID'], 0, '/', SERVER_NAME, true, true);
+        }
         $jsUrl = $this->getUrl("AWSScript.js"); 
         $resultUrl = $this->getUrl("AWSResult.php");
-        $signedPolicy = AWSStorage::getSignedPolicy($resultUrl);
+        $signedPolicy = $this->getSignedPolicy($resultUrl);
         $baseDir = $this->getProjectSetting("base-dir");
         print("<script>
             awsstore = {

@@ -7,28 +7,8 @@
       "name": "Adam Newton",
       "email": "adam.newton@yale.edu",
       "institution": "YCMI"
-    } 
-  ],
-  "versions": [
-    {
-      "number": "0.0.3",
-      "date": "2021-06-01",
-      "description": "Large file upload module",
-      "comments": ""
     }
   ],
-  "permissions":  [
-    "redcap_every_page_top"
-  ],
-
-  "links": {
-  },
- "no-auth-pages": [
-  ],
-
-  "system-settings": [
-  ],
-
   "project-settings": [
     {
       "key": "aws-s3-bucket",
@@ -67,13 +47,10 @@
       "type": "text"
     }
   ],
-  "crons":[
-  ],
-
   "compatibility": {
-    "php-version-min": "7.0.33",
-    "redcap-version-min": "10.0.0"
+    "php-version-min": "7.4.0",
+    "redcap-version-min": "14.0.2"
   },
-
-  "framework-version": 5
+  "framework-version": 15,
+  "enable-every-page-hooks-on-login-form": true
 }

@@ -21,4 +21,4 @@ Then in the REDCap instance enable the external module for the particular projec
  * AWS S3 bucket region, e.g us-east-1
  * AWS S3 bucket access control list, e.g. public-read-write
  * Base directory (optional) e.g. Test 
-  
+
