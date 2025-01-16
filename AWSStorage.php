@@ -9,9 +9,9 @@ class AWSStorage extends \ExternalModules\AbstractExternalModule {
     const ALG = "SHA256";
 
     function redcap_every_page_top ($project_id) {
-        if (isset($_COOKIE['PHPSESSID']) && !empty($_COOKIE['PHPSESSID'])) {
+        if (isset($_COOKIE['PHPSESSID']) && !empty($_COOKIE['PHPSESSID']) && !empty(\Session::sessionId()) && $_COOKIE['PHPSESSID'] === \Session::sessionId()) {
             // This is a workaround for Firefox omitting session cookie in some configurations
-            setcookie('PHPSESSID', $_COOKIE['PHPSESSID'], 0,'/', null,true,true);
+            setcookie('PHPSESSID', \Session::sessionId(), 0,'/', null,true,true);
         } 
         $jsUrl = $this->getUrl("AWSScript.js"); 
         $resultUrl = $this->getUrl("AWSResult.php");
