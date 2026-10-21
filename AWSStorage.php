@@ -78,7 +78,7 @@ class AWSStorage extends \ExternalModules\AbstractExternalModule {
                         array("x-amz-algorithm"=>AWSStorage::ALGORITHM),
                         array("x-amz-date"=>$amzdate));
         $policy = array("expiration"=> $expire, "conditions"=>$conditions);
-        return utf8_encode(json_encode($policy, JSON_UNESCAPED_SLASHES));
+        return json_encode($policy, JSON_UNESCAPED_SLASHES);
     }
 
     public function getSignedPolicy($resultUrl) {
