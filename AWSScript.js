@@ -3,13 +3,13 @@ if (typeof (filePopUp) !== 'undefined') {
     awsstore.origUploadFilePreProcess = uploadFilePreProcess;
 }
 
-awsstore.newFilePopUp = function (fieldName, value) {
-    awsstore.origFilePopUp(fieldName, value);
+awsstore.newFilePopUp = function (fieldName) {
+    awsstore.origFilePopUp.apply(this, arguments);
     if (fieldName.startsWith('aws')) {
         field = document.getElementById('field_name');
         if (field && field.value.startsWith('aws')) {
-            form = field.parentNode;
-            form.getElementsByTagName("span")[0].textContent = "(Max file size: 5 GB)";
+            var maxSizeSpan = document.querySelector('#f1_upload_form > span');
+            if (maxSizeSpan) maxSizeSpan.textContent = "(Max file size: 5 GB)";
         }
     }
 }
@@ -55,6 +55,7 @@ awsstore.uploadFilePreProcess = function () {
             values = [dir + "/${filename}", AWSS3Acl, AWSS3Redirect, "", "14365123651274", "AES256", AWSS3BucketID + "/" + AWSS3DateStamp + "/" + AWSS3Region + "/s3/aws4_request", "AWS4-HMAC-SHA256", AWSS3AmzDate, "", AWSS3Policy, AWSS3Signiture];
             first = form.childNodes[0];
             for (i = 0; i < names.length; i++) {
+                if (names[i] == "acl" && !AWSS3Acl) continue;
                 el = document.createElement("input");
                 el.name = names[i];
                 el.type = "hidden";

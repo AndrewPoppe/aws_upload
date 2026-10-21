@@ -9,12 +9,9 @@ class AWSStorage extends \ExternalModules\AbstractExternalModule {
     const ALG = "SHA256";
 
     function redcap_every_page_top ($project_id) {
-        if (isset($_COOKIE['PHPSESSID']) && !empty($_COOKIE['PHPSESSID']) && !empty(\Session::sessionId()) && $_COOKIE['PHPSESSID'] === \Session::sessionId()) {
-            // This is a workaround for Firefox omitting session cookie in some configurations
-            setcookie('PHPSESSID', \Session::sessionId(), 0,'/', null,true,true);
-        } 
-        $jsUrl = $this->getUrl("AWSScript.js"); 
-        $resultUrl = $this->getUrl("AWSResult.php");
+        $jsUrl = $this->getUrl("AWSScript.js");
+        // S3 redirects here cross-site, so browsers omit the SameSite session cookie; use a no-auth page
+        $resultUrl = $this->getUrl("AWSResult.php", true);
         $signedPolicy = $this->getSignedPolicy($resultUrl);
         $baseDir = $this->getProjectSetting("base-dir");
         print("<script>
@@ -66,8 +63,12 @@ class AWSStorage extends \ExternalModules\AbstractExternalModule {
         $cred = $bucketID . "/" . $dateStamp . "/" . $region . "/" . $service . "/aws4_request";
         $conditions = array(
                         array("bucket"=>$bucket),
-                        $nameCond,
-                        array("acl"=>$acl),
+                        $nameCond);
+        if (!empty($acl)) {
+            // Buckets with ACLs disabled reject any request that sets an ACL
+            $conditions[] = array("acl"=>$acl);
+        }
+        array_push($conditions,
                         array("success_action_redirect"=>$redirect),
                         $contentCond,
                         array("x-amz-meta-uuid"=>AWSStorage::UUID),

@@ -9,6 +9,7 @@
       "institution": "YCMI"
     }
   ],
+  "no-auth-pages": ["AWSResult"],
   "project-settings": [
     {
       "key": "aws-s3-bucket",
@@ -36,8 +37,8 @@
     },
     {
       "key": "aws-s3-bucket-acl",
-      "name": "AWS S3 bucket access control list  <br /><em>example</em>: public-read-write&nbsp;",
-      "required": true,
+      "name": "AWS S3 bucket access control list  <br /><em>example</em>: public-read-write&nbsp;<br />Leave blank if the bucket has ACLs disabled (Object Ownership: Bucket owner enforced)",
+      "required": false,
       "type": "text"
     },
     {
