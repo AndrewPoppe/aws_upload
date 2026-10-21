@@ -4,9 +4,9 @@
   "description": "Simple AWS S3 Uploads",
   "authors": [
     {
-      "name": "Adam Newton",
-      "email": "adam.newton@yale.edu",
-      "institution": "YCMI"
+      "name": "Andrew Poppe",
+      "email": "andrew.poppe@yale.edu",
+      "institution": "Yale University"
     }
   ],
   "no-auth-pages": [
