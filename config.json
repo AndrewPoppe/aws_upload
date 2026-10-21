@@ -9,7 +9,9 @@
       "institution": "YCMI"
     }
   ],
-  "no-auth-pages": ["AWSResult"],
+  "no-auth-pages": [
+    "AWSResult"
+  ],
   "project-settings": [
     {
       "key": "aws-s3-bucket",
@@ -49,8 +51,8 @@
     }
   ],
   "compatibility": {
-    "php-version-min": "7.4.0",
-    "redcap-version-min": "14.0.2"
+    "php-version-min": "8.0.0",
+    "redcap-version-min": "17.0.1"
   },
-  "framework-version": 15
+  "framework-version": 17
 }
