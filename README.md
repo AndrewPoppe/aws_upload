@@ -1,6 +1,6 @@
 # AWS S3 Upload (REDCap External Module)
 
-Upload files from REDCap data entry forms directly to an Amazon S3 bucket.
+Upload files from REDCap data entry forms and surveys directly to an Amazon S3 bucket.
 
 Files go straight from the user's browser to S3 and never pass through the REDCap server. That means REDCap's file upload size limit doesn't apply: a single file can be up to **5 GB**. REDCap records only where the file was stored, in a companion text field on the form.
 
@@ -92,10 +92,10 @@ The record ID and event are **not** part of the path. If two uploads have the sa
 
 ## Using it
 
-1. Open the instrument on a data entry form and click **Upload file** on the `aws_` field. The dialog shows "(Max file size: 5 GB)".
+1. Open the instrument as a data entry form or a survey and click **Upload file** on the `aws_` field. The dialog shows "(Max file size: 5 GB)".
 2. Choose a file and click **Upload file**. The file is sent to S3.
 3. When the upload finishes, the dialog shows "File was successfully uploaded!" and closes. The `log_` field is filled in with the file's S3 location.
-4. **Save the form.** Until you do, the S3 location isn't saved to the record, even though the file is already in S3.
+4. **Save the form**, or move on from the survey page. Until you do, the S3 location isn't saved to the record, even though the file is already in S3.
 
 ### What REDCap does and doesn't store
 
@@ -105,7 +105,7 @@ The record ID and event are **not** part of the path. If two uploads have the sa
 
 ### Limitations
 
-- **Data entry forms only.** Uploads to `aws_` fields don't work on surveys. Put these fields on instruments that aren't enabled as surveys.
+- **Multi-page surveys:** put the `log_` field on the same survey page as its `aws_` field.
 - Maximum file size is 5 GB, the limit for a single S3 browser upload.
 - The module doesn't check file names or file types.
 
@@ -149,7 +149,7 @@ To see why an upload failed, open the browser's developer tools and go to the **
 | `AccessDenied` – *Invalid according to Policy* | The upload didn't match the signed policy. | Reload the page and try again. The policy is signed when the page loads and expires after one week. |
 | `AccessDenied` (no policy message) | The IAM user lacks `s3:PutObject` on that path, or a bucket policy blocks the upload, e.g. a public ACL on a bucket that blocks public access. | Check the IAM and bucket policies. |
 | The dialog still shows REDCap's normal size limit | The field name doesn't start with `aws`, or the module isn't enabled in this project. | Rename the field or enable the module. |
-| Clicking **Upload file** does nothing | The matching `log_` field is missing from the instrument, or the instrument is being filled out as a survey. | Add the `log_` field, or use the instrument as a data entry form. |
+| Clicking **Upload file** does nothing | The matching `log_` field is missing from the instrument, or, on a multi-page survey, is on a different page. | Add the `log_` field to the same instrument and survey page. |
 | The upload hangs, then the user is logged out | You're running a module version older than v1.0.2 on a newer REDCap. | Upgrade the module. |
 
 ## Authors

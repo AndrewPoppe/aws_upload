@@ -44,8 +44,8 @@ awsstore.uploadFilePreProcess = function () {
         } else {
             //Create the form inputs for AWS
             var subdir = field_name.split('_')[1];
-            var urlParam = new URLSearchParams(window.location.search);
-            var pageDir = (new URLSearchParams(window.location.search)).get('page').replaceAll("_", " ");
+            // Survey URLs have no "page" param, so the instrument name comes from the server
+            var pageDir = awsstore.instrument.replaceAll("_", " ");
 
             var dir = awsstore.base_dir + "/" + subdir + "/" + pageDir;
             log_field.attempt = dir + "/" + name;

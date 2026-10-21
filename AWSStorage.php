@@ -8,7 +8,24 @@ class AWSStorage extends \ExternalModules\AbstractExternalModule {
     const ALGORITHM = "AWS4-HMAC-SHA256";
     const ALG = "SHA256";
 
-    function redcap_every_page_top ($project_id) {
+    function redcap_data_entry_form_top($project_id, $record, $instrument, $event_id, $group_id = null, $repeat_instance = 1) {
+        $this->addUploader($instrument, \REDCap::getFieldNames($instrument));
+    }
+
+    function redcap_survey_page_top($project_id, $record, $instrument, $event_id, $group_id, $survey_hash, $response_id = null, $repeat_instance = 1) {
+        // Only the fields shown on the current page of a multi-page survey
+        global $pageFields;
+        $fields = $pageFields[$_GET['__page__'] ?? ''] ?? \REDCap::getFieldNames($instrument);
+        $this->addUploader($instrument, $fields);
+    }
+
+    // Output the signed upload policy only on pages that show an aws file upload field
+    private function addUploader($instrument, $fields) {
+        $awsFields = array_filter((array)$fields, function ($field) {
+            return str_starts_with($field, 'aws') && \REDCap::getFieldType($field) === 'file';
+        });
+        if (empty($awsFields)) return;
+
         $jsUrl = $this->getUrl("AWSScript.js");
         // S3 redirects here cross-site, so browsers omit the SameSite session cookie; use a no-auth page
         $resultUrl = $this->getUrl("AWSResult.php", true);
@@ -16,7 +33,8 @@ class AWSStorage extends \ExternalModules\AbstractExternalModule {
         $baseDir = $this->getProjectSetting("base-dir");
         print("<script>
             awsstore = {
-                'base_dir' : '" . $baseDir . "'
+                'base_dir' : " . json_encode($baseDir) . ",
+                'instrument' : " . json_encode($instrument) . "
             };
             document.addEventListener('DOMContentLoaded', function() {
             var bodyLoaded = document.body;
